@@ -40,6 +40,11 @@ class CalcModel {
         return self.text.firstIndex(of: "=") != nil
     }
     
+    func clear(){
+        self.text = ""
+    }
+    
+
     func tapped(number: String) {
         if expressionHaveResult {
             self.text = ""
@@ -80,6 +85,8 @@ class CalcModel {
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
+            case "x": result = left * right
+            case "/": result = left / right
             default: fatalError("Unknown operator !")
             }
             
