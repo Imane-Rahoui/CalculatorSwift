@@ -44,11 +44,14 @@ class CalcModel {
         self.text = ""
     }
     
-
+    func clearLast(){
+        self.text.popLast()
+    }
+    
     func tapped(number: String) {
         if expressionHaveResult {
             self.text = ""
-    
+            
         }
         self.text.append(number)
         

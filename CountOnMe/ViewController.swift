@@ -57,5 +57,9 @@ class ViewController: UIViewController, CalcInteractor {
     @IBAction func cleanAndClear(_ sender: Any) {
         self.calculator.clear()
     }
+    
+    @IBAction func clearLast(_ sender: Any) {
+        self.calculator.clearLast()
+    }
 }
 
