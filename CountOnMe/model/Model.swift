@@ -39,7 +39,19 @@ class CalcModel {
     var expressionHaveResult: Bool {
         return self.text.firstIndex(of: "=") != nil
     }
-    
+    var expressionDivCorrect: Bool {
+        for index in 0 ..< elements.count-1
+        {
+            print("itera : ",elements[index])
+            if elements[index]=="/" && elements[index+1]=="0"
+            {
+                return false
+            }
+            
+        }
+        return true
+    }
+
     func clear(){
         self.text = ""
     }
@@ -57,6 +69,7 @@ class CalcModel {
         
     }
 
+
     func tappedOpe(operand: String) {
         if canAddOperator {
             self.text.append(" \(operand) ")
@@ -65,7 +78,6 @@ class CalcModel {
         }
     }
     
-
     
     func priorityHandler(elements : [String]) -> [String]
     {
@@ -119,6 +131,11 @@ class CalcModel {
         
         guard expressionHaveEnoughElement else {
             self.interactor.onError(message: "Démarrez un nouveau calcul !")
+            return
+        }
+        
+        guard expressionDivCorrect else {
+            self.interactor.onError(message: "Error Division sur 0, Entrez une expression correcte !")
             return
         }
         // Create local copy of operations
