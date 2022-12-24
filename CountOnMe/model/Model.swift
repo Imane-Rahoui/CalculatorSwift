@@ -56,13 +56,59 @@ class CalcModel {
         self.text.append(number)
         
     }
-    
+
     func tappedOpe(operand: String) {
         if canAddOperator {
             self.text.append(" \(operand) ")
         } else {
             self.interactor.onError(message: "Impossible d'ajouter un opérateur")
         }
+    }
+    
+
+    
+    func priorityHandler(elements : [String]) -> [String]
+    {
+        var operationsToReduce=elements
+        print(operationsToReduce)
+        // Iterate over operations while an operand still here
+ 
+        var resFinal:[String]=[]
+        while operationsToReduce.count > 1 {
+            let left = Int(operationsToReduce[0])!
+            let operand = operationsToReduce[1]
+            let right = Int(operationsToReduce[2])!
+            
+            let result: Int
+            switch operand {
+            case "x":
+                result = left * right
+                operationsToReduce = Array(operationsToReduce.dropFirst(3))
+                operationsToReduce.insert("\(result)", at: 0)
+                
+            case "/":
+                result = left / right
+                operationsToReduce = Array(operationsToReduce.dropFirst(3))
+                operationsToReduce.insert("\(result)", at: 0)
+            case "+":
+                resFinal.append(String(left))
+                resFinal.append(String(operand))
+                operationsToReduce = Array(operationsToReduce.dropFirst(2))
+            case "-":
+                resFinal.append(String(left))
+                resFinal.append(String(operand))
+                operationsToReduce = Array(operationsToReduce.dropFirst(2))
+            default: fatalError("Unknown operator !")
+            }
+            
+            //print("op : ",operationsToReduce)
+            //print("res : ",resFinal)
+        }
+        resFinal.append(String(operationsToReduce[0]))
+        //print("op :: ",operationsToReduce)
+        //print("res :: ",resFinal)
+        return resFinal
+            
     }
     
     func makeOperation() {
@@ -76,7 +122,7 @@ class CalcModel {
             return
         }
         // Create local copy of operations
-        var operationsToReduce = elements
+        var operationsToReduce =  self.priorityHandler(elements: elements)
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
